@@ -41,10 +41,10 @@ public class Populator {
         subtaskRepository.save(st1);
         subtaskRepository.save(st2);
 
-//        p1.addTask(t1);
-//        p1.addTask(t2);
-//        t1.setProject(p1);
-//        t2.setProject(p1);
+        p1.addTask(t1);
+        p1.addTask(t2);
+        t1.setProject(p1);
+        t2.setProject(p1);
 
         taskRepo.save(t1);
         taskRepo.save(t2);

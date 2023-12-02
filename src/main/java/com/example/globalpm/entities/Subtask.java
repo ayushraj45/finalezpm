@@ -5,13 +5,15 @@ import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.util.UUID;
+
 @Entity
 public class Subtask {
 
     //Variables
     @Id
     @GeneratedValue
-    Long id;
+    UUID id;
 
     String name;
 
@@ -27,14 +29,14 @@ public class Subtask {
         this.task = task;
         this.description = description;
     }
+    public Subtask(){}
 
     //Setters and Getters
-    public Subtask(){}
-    public Long getId() {
+    public UUID getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(UUID id) {
         this.id = id;
     }
 

@@ -3,8 +3,10 @@ import com.example.globalpm.entities.Project;
 import org.springframework.data.repository.ListCrudRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.UUID;
+
 @Repository
-public interface ProjectRepository extends ListCrudRepository<Project, Long> {
+public interface ProjectRepository extends ListCrudRepository<Project, UUID> {
 
 
 }

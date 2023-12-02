@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 @Service
 public class ProjectService {
@@ -35,11 +36,11 @@ public class ProjectService {
         return projectRepo.save(project);
     }
 
-    public Optional<Project> getProjectById(Long projectId) {
+    public Optional<Project> getProjectById(UUID projectId) {
         return projectRepo.findById(projectId);
     }
 
-    public void addTaskToProject(Long projectId, Task task) {
+    public void addTaskToProject(UUID projectId, Task task) {
         Optional<Project> optionalProject = projectRepo.findById(projectId);
         if (optionalProject.isPresent()) {
             Project project = optionalProject.get();

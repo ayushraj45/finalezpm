@@ -3,6 +3,8 @@ import com.example.globalpm.entities.Subtask;
 import org.springframework.data.repository.ListCrudRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.UUID;
+
 @Repository
-public interface SubtaskRepository extends ListCrudRepository<Subtask, Long> {
+public interface SubtaskRepository extends ListCrudRepository<Subtask, UUID> {
 }

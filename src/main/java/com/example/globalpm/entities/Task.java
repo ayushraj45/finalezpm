@@ -3,6 +3,7 @@ package com.example.globalpm.entities;
 import jakarta.persistence.*;
 
 import java.util.List;
+import java.util.UUID;
 
 @Entity
 public class Task {
@@ -10,7 +11,7 @@ public class Task {
     //Variables
     @Id
     @GeneratedValue
-    Long id;
+    UUID id;
 
     private String taskName;
     @ManyToOne
@@ -26,14 +27,32 @@ public class Task {
         this.taskName = taskName;
     }
 
-    Task() {
-    }
+    public Task() {}
+
     //Setters and Getters
+
+
+    public UUID getId() {
+        return id;
+    }
+
+    public void setSubtasks(List<Subtask> subtasks) {
+        this.subtasks = subtasks;
+    }
+
+    public Project getProject() {
+        return project;
+    }
+
     public String getTaskName() {
         return taskName;
     }
 
     public void setTaskName(String taskName) {
         this.taskName = taskName;
+    }
+
+    public void setProject(Project project) {
+        this.project=project;
     }
 }

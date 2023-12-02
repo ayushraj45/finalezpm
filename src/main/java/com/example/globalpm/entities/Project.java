@@ -2,6 +2,7 @@ package com.example.globalpm.entities;
 import jakarta.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 @Entity
 public class Project {
@@ -9,7 +10,7 @@ public class Project {
     //variables
     @Id
     @GeneratedValue
-    Long id;
+    UUID id;
 
     private String name;
 
@@ -18,6 +19,10 @@ public class Project {
 
     //Setters and Getters
 
+
+    public UUID getId() {
+        return id;
+    }
 
     public String getName() {
         return name;
