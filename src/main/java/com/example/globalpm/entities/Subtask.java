@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 @Entity
 public class Subtask {
 
+    //Variables
     @Id
     @GeneratedValue
     Long id;
@@ -19,6 +20,7 @@ public class Subtask {
     @ManyToOne
     private Task task;
 
+    //Constructors and other methods
     @Autowired
     public Subtask(String name, String description, Task task) {
         this.name = name;
@@ -26,6 +28,7 @@ public class Subtask {
         this.description = description;
     }
 
+    //Setters and Getters
     public Subtask(){}
     public Long getId() {
         return id;
