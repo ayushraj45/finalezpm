@@ -67,6 +67,7 @@ public class ProjectService {
         Project projectToAddGoal;
         projectToAddGoal = projectRepo.findById(projectId)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND,"Project to add Goal to not found"));
+        goal.setProject(projectToAddGoal);
         goalRepository.save(goal);
             projectToAddGoal.addGoal(goal);
             return createProject(projectToAddGoal);
