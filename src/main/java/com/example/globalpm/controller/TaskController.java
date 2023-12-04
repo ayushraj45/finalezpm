@@ -30,12 +30,6 @@ public class TaskController {
         return service.findTaskByGoalId(goalId);
     }
 
-//    @Operation(summary = "Get a list of all Task assigned to a Goal", description = "Returns a list of all goals within a specific task")
-//    @GetMapping("/project/{projectId}")
-//    List<Task> getAllTasksByProjectId(UUID projectId){
-//        return service.findTaskByProjectId(projectId);
-//    }
-
     @Operation(summary = "Add a Task", description = "Add a task")
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
@@ -49,7 +43,5 @@ public class TaskController {
     public Task updateATask(@RequestBody Task goal){
         return service.updateATask(goal);
     }
-
-
 
 }

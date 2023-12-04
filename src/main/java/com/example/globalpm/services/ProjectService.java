@@ -6,7 +6,9 @@ import com.example.globalpm.entities.Project;
 import com.example.globalpm.entities.Goal;
 import com.example.globalpm.entities.Task;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,6 +37,8 @@ public class ProjectService {
 
 
 
+
+
     public List<Project> getAllProjects() {
         return projectRepo.findAll();
     }
@@ -59,13 +63,13 @@ public class ProjectService {
         return tasksToDisplay;
     }
 
-    public void addGoalToProject(UUID projectId, Goal goal) {
-        Optional<Project> optionalProject = projectRepo.findById(projectId);
-        if (optionalProject.isPresent()) {
-            Project project = optionalProject.get();
-            project.addGoal(goal);
-            projectRepo.save(project);
-        }
+    public Project addGoalToProject(UUID projectId, Goal goal) {
+        Project projectToAddGoal;
+        projectToAddGoal = projectRepo.findById(projectId)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND,"Project to add Goal to not found"));
+        goalRepository.save(goal);
+            projectToAddGoal.addGoal(goal);
+            return createProject(projectToAddGoal);
     }
 
 }

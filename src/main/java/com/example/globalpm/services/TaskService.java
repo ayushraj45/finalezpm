@@ -33,11 +33,6 @@ public class TaskService {
         return repository.findAllByGoalId(goalId);
     }
 
-//    public List<Task> findTaskByProjectId(UUID projectId){
-//        Project project = projectRepository.findById(projectId).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Project Not Found"));
-//        return repository.findAllTaskByProject(project);
-//    }
-
     public Task addANewTask(Task goal) {
         return repository.save(goal);
     }

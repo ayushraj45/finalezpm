@@ -42,7 +42,9 @@ public class Project {
     public void addGoal(Goal goal) {
         if (goals == null) {
             goals = new ArrayList<>();
+            goals.add(goal);
         }
-
+        else
+            goals.add(goal);
     }
 }

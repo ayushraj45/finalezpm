@@ -6,10 +6,9 @@ import com.example.globalpm.services.ProjectService;
 import com.example.globalpm.services.GoalService;
 import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.*;
+
 import java.util.List;
 import java.util.UUID;
 
@@ -40,6 +39,12 @@ public class ProjectController {
     @GetMapping("/tasks/{projectId}")
     public List<Task> getAllTasksWithinAProject(@PathVariable UUID projectId){
         return projService.getAllTasksInProject(projectId);
+    }
+    @Operation(summary = "Add a Goal to a project ", description = "Adding a goal to a project.")
+    @PutMapping("/addGoal/")
+    @ResponseStatus(HttpStatus.CREATED)
+    public Project addAgoalToAProject(@RequestBody Goal goal, UUID id){
+        return projService.addGoalToProject(id, goal);
     }
 
 }
