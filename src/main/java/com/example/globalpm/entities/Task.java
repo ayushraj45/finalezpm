@@ -1,8 +1,10 @@
 package com.example.globalpm.entities;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.Id;
+import jakarta.persistence.ManyToOne;
+import org.springframework.beans.factory.annotation.Autowired;
 
-import jakarta.persistence.*;
-
-import java.util.List;
 import java.util.UUID;
 
 @Entity
@@ -13,46 +15,52 @@ public class Task {
     @GeneratedValue
     UUID id;
 
-    private String taskName;
+    String name;
+
+    String description;
+
     @ManyToOne
-    // @JoinColumn(name = "project_id")
-    private Project project;
+    private Goal goal;
 
-    @OneToMany(mappedBy = "task")
-    private List<Subtask> subtasks;
-
-    //Constructors and Methods
-    public Task(String taskName) {
-        // this.project=project;
-        this.taskName = taskName;
+    //Constructors and other methods
+    @Autowired
+    public Task(String name, String description, Goal goal) {
+        this.name = name;
+        this.goal = goal;
+        this.description = description;
     }
-
-    public Task() {}
+    public Task(){}
 
     //Setters and Getters
-
-
     public UUID getId() {
         return id;
     }
 
-    public void setSubtasks(List<Subtask> subtasks) {
-        this.subtasks = subtasks;
+    public void setId(UUID id) {
+        this.id = id;
     }
 
-    public Project getProject() {
-        return project;
+    public String getName() {
+        return name;
     }
 
-    public String getTaskName() {
-        return taskName;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public void setTaskName(String taskName) {
-        this.taskName = taskName;
+    public String getDescription() {
+        return description;
     }
 
-    public void setProject(Project project) {
-        this.project=project;
+    public Goal getGoal() {
+        return goal;
+    }
+
+    public void setGoal(Goal goal) {
+        this.goal = goal;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 }

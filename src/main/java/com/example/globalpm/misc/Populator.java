@@ -1,11 +1,11 @@
 package com.example.globalpm.misc;
 
 import com.example.globalpm.data.ProjectRepository;
-import com.example.globalpm.data.SubtaskRepository;
 import com.example.globalpm.data.TaskRepository;
+import com.example.globalpm.data.GoalRepository;
 import com.example.globalpm.entities.Project;
-import com.example.globalpm.entities.Subtask;
 import com.example.globalpm.entities.Task;
+import com.example.globalpm.entities.Goal;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.context.event.EventListener;
@@ -18,10 +18,10 @@ public class Populator {
     ProjectRepository ProjectRepository;
 
     @Autowired
-    TaskRepository taskRepo;
+    GoalRepository goalRepo;
 
     @Autowired
-    SubtaskRepository subtaskRepository;
+    TaskRepository goalRepository;
 
     @Autowired
     public Populator(ProjectRepository IProjectRepository) {
@@ -32,22 +32,22 @@ public class Populator {
     public void populate(){
         Project p1 = new Project("New Project");
         ProjectRepository.save(p1);
-        Task t1 = new Task("task1");
-        Task t2 = new Task("task2");
-        taskRepo.save(t1);
-        taskRepo.save(t2);
-        Subtask st1 = new Subtask("ST1", "des", t1);
-        Subtask st2 = new Subtask("St2", "des", t2);
-        subtaskRepository.save(st1);
-        subtaskRepository.save(st2);
+        Goal t1 = new Goal("goal1");
+        Goal t2 = new Goal("goal2");
+        goalRepo.save(t1);
+        goalRepo.save(t2);
+        Task st1 = new Task("ST1", "des", t1);
+        Task st2 = new Task("St2", "des", t2);
+        goalRepository.save(st1);
+        goalRepository.save(st2);
 
-        p1.addTask(t1);
-        p1.addTask(t2);
+        p1.addGoal(t1);
+        p1.addGoal(t2);
         t1.setProject(p1);
         t2.setProject(p1);
 
-        taskRepo.save(t1);
-        taskRepo.save(t2);
+        goalRepo.save(t1);
+        goalRepo.save(t2);
         ProjectRepository.save(p1);
     }
 }

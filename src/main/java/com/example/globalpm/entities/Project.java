@@ -15,7 +15,7 @@ public class Project {
     private String name;
 
     @OneToMany (mappedBy = "project")
-    List<Task> tasks;
+    List<Goal> goals;
 
     //Setters and Getters
 
@@ -39,9 +39,9 @@ public class Project {
     //Constructors and Other Methods
     Project(){}
 
-    public void addTask(Task task) {
-        if (tasks == null) {
-            tasks = new ArrayList<>();
+    public void addGoal(Goal goal) {
+        if (goals == null) {
+            goals = new ArrayList<>();
         }
 
     }

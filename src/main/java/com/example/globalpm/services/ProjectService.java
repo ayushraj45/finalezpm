@@ -1,10 +1,14 @@
 package com.example.globalpm.services;
+import com.example.globalpm.data.GoalRepository;
 import com.example.globalpm.data.ProjectRepository;
+import com.example.globalpm.data.TaskRepository;
 import com.example.globalpm.entities.Project;
+import com.example.globalpm.entities.Goal;
 import com.example.globalpm.entities.Task;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -23,8 +27,11 @@ public class ProjectService {
 //    @Autowired
 //    private UserRepository userRepository;
 //
-//    @Autowired
-//    private TaskRepository taskRepository;
+    @Autowired
+    private GoalRepository goalRepository;
+
+    @Autowired
+    private TaskRepository taskRepository;
 
 
 
@@ -40,11 +47,23 @@ public class ProjectService {
         return projectRepo.findById(projectId);
     }
 
-    public void addTaskToProject(UUID projectId, Task task) {
+    public List<Task> getAllTasksInProject(UUID projectId) {
+        List<Goal> allGoals = goalRepository.findGoalsByProjectId(projectId);
+        List<Task> tasksToDisplay = new ArrayList<>();
+        for (Goal currentGoal : allGoals) {
+             List<Task> allTasks = taskRepository.findAllByGoalId(currentGoal.getId());
+            for (Task currentTask: allTasks) {
+                    tasksToDisplay.add(currentTask);
+            }
+        }
+        return tasksToDisplay;
+    }
+
+    public void addGoalToProject(UUID projectId, Goal goal) {
         Optional<Project> optionalProject = projectRepo.findById(projectId);
         if (optionalProject.isPresent()) {
             Project project = optionalProject.get();
-            project.addTask(task);
+            project.addGoal(goal);
             projectRepo.save(project);
         }
     }
