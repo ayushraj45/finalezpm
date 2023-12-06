@@ -1,10 +1,16 @@
 package com.example.globalpm.services;
+import com.example.globalpm.data.GoalRepository;
 import com.example.globalpm.data.ProjectRepository;
+import com.example.globalpm.data.TaskRepository;
 import com.example.globalpm.entities.Project;
+import com.example.globalpm.entities.Goal;
 import com.example.globalpm.entities.Task;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -23,8 +29,13 @@ public class ProjectService {
 //    @Autowired
 //    private UserRepository userRepository;
 //
-//    @Autowired
-//    private TaskRepository taskRepository;
+    @Autowired
+    private GoalRepository goalRepository;
+
+    @Autowired
+    private TaskRepository taskRepository;
+
+
 
 
 
@@ -40,13 +51,26 @@ public class ProjectService {
         return projectRepo.findById(projectId);
     }
 
-    public void addTaskToProject(UUID projectId, Task task) {
-        Optional<Project> optionalProject = projectRepo.findById(projectId);
-        if (optionalProject.isPresent()) {
-            Project project = optionalProject.get();
-            project.addTask(task);
-            projectRepo.save(project);
+    public List<Task> getAllTasksInProject(UUID projectId) {
+        List<Goal> allGoals = goalRepository.findGoalsByProjectId(projectId);
+        List<Task> tasksToDisplay = new ArrayList<>();
+        for (Goal currentGoal : allGoals) {
+             List<Task> allTasks = taskRepository.findAllByGoalId(currentGoal.getId());
+            for (Task currentTask: allTasks) {
+                    tasksToDisplay.add(currentTask);
+            }
         }
+        return tasksToDisplay;
+    }
+
+    public Project addGoalToProject(UUID projectId, Goal goal) {
+        Project projectToAddGoal;
+        projectToAddGoal = projectRepo.findById(projectId)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND,"Project to add Goal to not found"));
+        goal.setProject(projectToAddGoal);
+        goalRepository.save(goal);
+            projectToAddGoal.addGoal(goal);
+            return createProject(projectToAddGoal);
     }
 
 }

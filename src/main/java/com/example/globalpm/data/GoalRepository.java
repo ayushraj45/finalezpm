@@ -1,6 +1,5 @@
 package com.example.globalpm.data;
-import com.example.globalpm.entities.Project;
-import com.example.globalpm.entities.Task;
+import com.example.globalpm.entities.Goal;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.ListCrudRepository;
@@ -11,8 +10,7 @@ import java.util.List;
 import java.util.UUID;
 
 @Repository
-public interface TaskRepository extends JpaRepository<Task, UUID> {
-    List<Task> findAllByGoalId(UUID goalId);
-
-
+public interface GoalRepository extends JpaRepository<Goal, UUID> {
+    @Query(value = "SELECT * FROM GOAL WHERE PROJECT_ID = :#{#id}", nativeQuery = true)
+    List<Goal> findGoalsByProjectId(@Param("id") UUID id);
 }
