@@ -6,8 +6,11 @@ import com.example.globalpm.services.ProjectService;
 import com.example.globalpm.services.GoalService;
 import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+
+
 
 import java.util.List;
 import java.util.UUID;
@@ -18,7 +21,7 @@ public class ProjectController {
 
     ProjectService projService;
     @Autowired
-    GoalService goalService;
+    GoalService  goalService;
 
 
     @Autowired
@@ -30,11 +33,7 @@ public class ProjectController {
         return projService.getAllProjects();
     }
 
-    @Operation(summary = "Get a list of all Goals", description = "Returns a list of all goals across all projects")
-    @GetMapping("/goals")
-    public List<Goal> getAllGoals() {
-        return goalService.getAllGoals();
-    }
+
 
     @GetMapping("/tasks/{projectId}")
     public List<Task> getAllTasksWithinAProject(@PathVariable UUID projectId){
@@ -43,7 +42,7 @@ public class ProjectController {
     @Operation(summary = "Add a Goal to a project ", description = "Adding a goal to a project.")
     @PutMapping("/addGoal/")
     @ResponseStatus(HttpStatus.CREATED)
-    public Project addAgoalToAProject(@RequestBody Goal goal, UUID id){
+    public Project addAgoalToAProject(@RequestBody @DateTimeFormat(pattern="dd-MM-yyyy") Goal goal, UUID id){
         return projService.addGoalToProject(id, goal);
     }
 

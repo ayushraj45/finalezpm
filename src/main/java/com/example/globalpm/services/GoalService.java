@@ -1,7 +1,6 @@
 package com.example.globalpm.services;
 import com.example.globalpm.data.GoalRepository;
 import com.example.globalpm.entities.Goal;
-import com.example.globalpm.entities.Task;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
