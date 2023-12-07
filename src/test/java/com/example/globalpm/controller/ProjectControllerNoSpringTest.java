@@ -25,8 +25,4 @@ class ProjectControllerNoSpringTest {
         verify(mockService,times(1)).getAllProjects();
     }
 
-    @Test
-    void test_findById_ValidRequest() {
-        uut.getPro
-    }
 }

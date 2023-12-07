@@ -1,10 +1,10 @@
 package com.example.globalpm.entities;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
-import jakarta.persistence.ManyToOne;
+import com.fasterxml.jackson.annotation.JsonFormat;
+import jakarta.persistence.*;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.time.LocalDateTime;
+import java.util.List;
 import java.util.UUID;
 
 @Entity
@@ -14,14 +14,18 @@ public class Task {
     @Id
     @GeneratedValue
     UUID id;
-
     String name;
-
     String description;
-
     @ManyToOne
     private Goal goal;
-
+    private Double progress;
+    private boolean isCompleted;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy")
+    private LocalDateTime startDate;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy")
+    private LocalDateTime endDate;
+    @ManyToMany(mappedBy = "tasks")
+    private List<User> users;
     //Constructors and other methods
     @Autowired
     public Task(String name, String description, Goal goal) {

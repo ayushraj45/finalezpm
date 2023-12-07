@@ -1,7 +1,9 @@
 package com.example.globalpm.entities;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
@@ -20,6 +22,14 @@ public class Goal {
 
     @OneToMany(mappedBy = "goal")
     private List<Task> tasks;
+    private Double progress;
+    private boolean isCompleted;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy")
+    private LocalDateTime startDate;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy")
+    private LocalDateTime endDate;
+    @ManyToMany(mappedBy = "goals")
+    private List<User> users;
 
     //Constructors and Methods
     public Goal(String goalName) {

@@ -1,5 +1,8 @@
 package com.example.globalpm.entities;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
+
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -11,12 +14,19 @@ public class Project {
     @Id
     @GeneratedValue
     UUID id;
-
     private String name;
 
     @OneToMany (mappedBy = "project")
-    List<Goal> goals;
+    private List<Goal> goals;
 
+    private Double progress;
+    private boolean isCompleted;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy")
+    private LocalDateTime startDate;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy")
+    private LocalDateTime endDate;
+    @ManyToMany(mappedBy = "projects")
+    private List<User> users;
     //Setters and Getters
 
 
