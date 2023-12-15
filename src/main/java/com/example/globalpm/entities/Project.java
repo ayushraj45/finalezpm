@@ -17,6 +17,10 @@ public class Project {
     @OneToMany (mappedBy = "project")
     List<Goal> goals;
 
+    @ManyToMany(mappedBy = "assignedProjects")
+    List<User> users = new ArrayList<>();
+
+
     //Setters and Getters
 
 
@@ -46,5 +50,18 @@ public class Project {
         }
         else
             goals.add(goal);
+    }
+
+    public List<User> getUsers() {
+        return users;
+    }
+
+    public void setUsers(List<User> users) {
+        this.users = users;
+    }
+
+    public void addUser(User user){
+        users.add(user);
+        setUsers(users);
     }
 }
