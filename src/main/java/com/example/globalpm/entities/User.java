@@ -12,6 +12,8 @@ public class User {
     @Id
     @GeneratedValue
     private UUID id;
+    @Embedded
+    Location userLocation;
 
     private String name;
 
@@ -30,6 +32,9 @@ public class User {
     }
 
     //Getters and Setters
+    public UUID getId() {
+        return id;
+    }
 
     public String getName() {
         return name;
@@ -50,5 +55,13 @@ public class User {
     public void assignProject(Project project){
         assignedProjects.add(project);
         setAssignedProjects(assignedProjects);
+    }
+
+    public Location getUserLocation() {
+        return userLocation;
+    }
+
+    public void setUserLocation(Location userLocation) {
+        this.userLocation = userLocation;
     }
 }
