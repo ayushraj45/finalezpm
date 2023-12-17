@@ -19,7 +19,7 @@ public class TaskController {
     public TaskController(TaskService service) {
         this.service = service;
     }
-    @Operation(summary = "Get a list of all Tasks", description = "Returns a list of all goals across all projects")
+    @Operation(summary = "Get a list of all Tasks", description = "Returns a list of all tasks across all projects")
     @GetMapping("")
     List<Task> getAllTasks(){
         return service.findAllTask();
