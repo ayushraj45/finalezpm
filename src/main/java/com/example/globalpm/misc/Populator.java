@@ -33,7 +33,7 @@ public class Populator {
         this.ProjectRepository = IProjectRepository;
     }
 
-    @EventListener(ContextRefreshedEvent.class)
+    //EventListener(ContextRefreshedEvent.class)
     public void populate(){
         Project p1 = new Project("New Project");
         ProjectRepository.save(p1);

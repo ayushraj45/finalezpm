@@ -27,9 +27,4 @@ public class UserController {
         return userService.findAllUsers();
     }
 
-    @Operation(summary = "Get a list of all users assigned to a project", description = "Returns a list of users assigned to a project with Project Id")
-    @GetMapping("/{projectId}")
-    public List<User> getAllUsersInAProject(){
-
-    }
 }

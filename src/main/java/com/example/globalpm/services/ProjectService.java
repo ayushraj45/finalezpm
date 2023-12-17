@@ -5,6 +5,7 @@ import com.example.globalpm.data.TaskRepository;
 import com.example.globalpm.entities.Project;
 import com.example.globalpm.entities.Goal;
 import com.example.globalpm.entities.Task;
+import com.example.globalpm.entities.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -73,4 +74,12 @@ public class ProjectService {
             return createProject(projectToAddGoal);
     }
 
+    public List<User> findUsersInAProject(UUID projectId) {
+        Project project = projectRepo.findById(projectId)
+                .orElseThrow(() -> new RuntimeException("Project not found with id: " + projectId));
+        if(project.getUsers().isEmpty()){
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "There are no users in the project with ID: " + projectId);
+        }
+        return project.getUsers();
+    }
 }

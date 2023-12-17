@@ -2,6 +2,7 @@ package com.example.globalpm.controller;
 import com.example.globalpm.entities.Project;
 import com.example.globalpm.entities.Goal;
 import com.example.globalpm.entities.Task;
+import com.example.globalpm.entities.User;
 import com.example.globalpm.services.ProjectService;
 import com.example.globalpm.services.GoalService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -45,6 +46,12 @@ public class ProjectController {
     @ResponseStatus(HttpStatus.CREATED)
     public Project addAgoalToAProject(@RequestBody Goal goal, UUID id){
         return projService.addGoalToProject(id, goal);
+    }
+
+    @Operation(summary = "Get a list of all users assigned to a project", description = "Returns a list of users assigned to a project with Project Id")
+    @GetMapping("/{projectId}")
+    public List<User> getAllUsersInAProject(@PathVariable UUID projectId){
+        return projService.findUsersInAProject(projectId);
     }
 
 }

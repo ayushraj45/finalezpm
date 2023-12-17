@@ -26,39 +26,39 @@ public class Location {
         this.country = country;
     }
 
-    public String getCountry() {
-        return country;
-    }
-
-    public void setCountry(String country) {
-        this.country = country;
-    }
-
+//    public String getCountry() {
+//        return country;
+//    }
+//
+//    public void setCountry(String country) {
+//        this.country = country;
+//    }
+//
     public LocalDate getLocalDate() {
         return localDate;
     }
-
-    public void setLocalDate(LocalDate localDate) {
-        this.localDate = localDate;
-    }
-
+//
+//    public void setLocalDate(LocalDate localDate) {
+//        this.localDate = localDate;
+//    }
+//
     public LocalTime getLocalTime() {
         return localTime;
     }
-
-    public String getLocalTimeNewFormat(){
-        return timeFormatter.format(getLocalTime());
-    }
-
-    public void setLocalTime(LocalTime localTime) {
-        this.localTime = localTime;
-    }
-
-    public ZoneId getZoneId() {
-        return zoneId;
-    }
-
-    public void setZoneId(ZoneId zoneId) {
-        this.zoneId = zoneId;
-    }
+//
+//    public String getLocalTimeNewFormat(){
+//        return timeFormatter.format(getLocalTime());
+//    }
+//
+//    public void setLocalTime(LocalTime localTime) {
+//        this.localTime = localTime;
+//    }
+//
+//    public ZoneId getZoneId() {
+//        return zoneId;
+//    }
+//
+//    public void setZoneId(ZoneId zoneId) {
+//        this.zoneId = zoneId;
+//    }
 }

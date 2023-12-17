@@ -61,7 +61,7 @@ public class User {
         return userLocation;
     }
 
-    public void setUserLocation(Location userLocation) {
-        this.userLocation = userLocation;
-    }
+//    public void setUserLocation(Location userLocation) {
+//        this.userLocation = userLocation;
+//    }
 }
