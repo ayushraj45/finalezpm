@@ -1,5 +1,6 @@
 package com.example.globalpm.entities;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 
 import java.util.List;
@@ -15,7 +16,7 @@ public class Goal {
 
     private String goalName;
     @ManyToOne
-    // @JoinColumn(name = "project_id")
+    @JoinColumn(name = "project_id")
     private Project project;
 
     @OneToMany(mappedBy = "goal")
@@ -40,6 +41,7 @@ public class Goal {
         this.tasks = tasks;
     }
 
+    @JsonManagedReference
     public Project getProject() {
         return project;
     }

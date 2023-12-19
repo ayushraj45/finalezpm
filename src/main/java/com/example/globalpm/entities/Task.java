@@ -1,4 +1,5 @@
 package com.example.globalpm.entities;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
@@ -52,6 +53,7 @@ public class Task {
         return description;
     }
 
+    @JsonManagedReference
     public Goal getGoal() {
         return goal;
     }

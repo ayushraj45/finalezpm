@@ -1,4 +1,5 @@
 package com.example.globalpm.entities;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -52,6 +53,7 @@ public class Project {
             goals.add(goal);
     }
 
+    @JsonManagedReference
     public List<User> getUsers() {
         return users;
     }

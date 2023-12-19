@@ -1,5 +1,7 @@
 package com.example.globalpm.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 
 import java.util.ArrayList;
@@ -12,6 +14,7 @@ public class User {
     @Id
     @GeneratedValue
     private UUID id;
+
     @Embedded
     Location userLocation;
 
@@ -44,6 +47,7 @@ public class User {
         this.name = name;
     }
 
+    @JsonIgnore
     public List<Project> getAssignedProjects() {
         return assignedProjects;
     }
@@ -56,12 +60,12 @@ public class User {
         assignedProjects.add(project);
         setAssignedProjects(assignedProjects);
     }
-
+    @JsonManagedReference
     public Location getUserLocation() {
         return userLocation;
     }
 
-//    public void setUserLocation(Location userLocation) {
-//        this.userLocation = userLocation;
-//    }
+    public void setUserLocation(Location userLocation) {
+        this.userLocation = userLocation;
+    }
 }
