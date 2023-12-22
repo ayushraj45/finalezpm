@@ -1,9 +1,15 @@
 package com.example.globalpm.services;
 import com.example.globalpm.data.GoalRepository;
+import com.example.globalpm.data.ProjectRepository;
+import com.example.globalpm.data.TaskRepository;
 import com.example.globalpm.entities.Goal;
+import com.example.globalpm.entities.Project;
 import com.example.globalpm.entities.Task;
+import com.example.globalpm.entities.User;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 import java.util.UUID;
@@ -13,6 +19,12 @@ public class GoalService {
 
     @Autowired
     GoalRepository goalRepo;
+
+    @Autowired
+    TaskRepository taskRepository;
+
+    @Autowired
+    ProjectRepository projRepo;
 
     @Autowired
     public GoalService(GoalRepository goalRepo) {
@@ -26,6 +38,36 @@ public class GoalService {
     public List<Goal> getAllGoalInProject(UUID id) {
         return goalRepo.findGoalsByProjectId(id);
     }
+
+    public List<User> findUsersInAGoal(UUID goalId) {
+        Goal goal = goalRepo.findById(goalId)
+                .orElseThrow(() -> new RuntimeException("Goal not found with id: " + goalId));
+        if(goal.getUsers().isEmpty()){
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "There are no users in the project with ID: " + goalId);
+        }
+        return goal.getUsers();
+    }
+
+    public Goal addAGoalInAProject(Goal goal) {
+        if (goal == null){
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Goal to add cannot be null");
+        }
+        else if(goal.getId() != null) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Goal to add cannot have an ID");
+        }
+        return goalRepo.save(goal);
+    }
+
+    public Goal addTaskToAGoal(UUID id, Task task) {
+
+            Goal goalToAddTheTaskIn;
+            goalToAddTheTaskIn = goalRepo.findById(id)
+                    .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND,"Goal to add task in not found"));
+            task.setGoal(goalToAddTheTaskIn);
+            taskRepository.save(task);
+            goalToAddTheTaskIn.addTask(task);
+            return goalRepo.save(goalToAddTheTaskIn);
+        }
 
 
 }

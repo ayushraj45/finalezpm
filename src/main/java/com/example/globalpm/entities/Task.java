@@ -1,11 +1,11 @@
 package com.example.globalpm.entities;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
-import jakarta.persistence.ManyToOne;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import jakarta.persistence.*;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 @Entity
@@ -20,8 +20,13 @@ public class Task {
 
     String description;
 
+    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     @ManyToOne
     private Goal goal;
+
+    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
+    @ManyToMany(mappedBy = "assignedTasks")
+    List<User> users = new ArrayList<>();
 
     //Constructors and other methods
     @Autowired
@@ -51,6 +56,17 @@ public class Task {
 
     public String getDescription() {
         return description;
+    }
+
+    public List<User> getUsers() {
+        return users;
+    }
+    public void addUser(User user){
+        users.add(user);
+        setUsers(users);
+    }
+    public void setUsers(List<User> users) {
+        this.users = users;
     }
 
     @JsonManagedReference

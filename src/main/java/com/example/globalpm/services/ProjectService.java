@@ -82,4 +82,14 @@ public class ProjectService {
         }
         return project.getUsers();
     }
+
+    public Project addAProject(Project project) {
+        if (project == null){
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Project to add cannot be null");
+        }
+        else if(project.getId() != null) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Project to add cannot have an ID");
+        }
+        return projectRepo.save(project);
+    }
 }

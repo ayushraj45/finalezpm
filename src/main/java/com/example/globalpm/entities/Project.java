@@ -1,5 +1,6 @@
 package com.example.globalpm.entities;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -17,7 +18,7 @@ public class Project {
 
     @OneToMany (mappedBy = "project")
     List<Goal> goals;
-
+    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     @ManyToMany(mappedBy = "assignedProjects")
     List<User> users = new ArrayList<>();
 
