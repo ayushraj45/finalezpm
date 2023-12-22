@@ -1,4 +1,5 @@
 package com.example.globalpm.entities;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
@@ -58,6 +59,7 @@ public class Task {
         return description;
     }
 
+    @JsonManagedReference
     public List<User> getUsers() {
         return users;
     }
@@ -69,7 +71,7 @@ public class Task {
         this.users = users;
     }
 
-    @JsonManagedReference
+    @JsonIgnore
     public Goal getGoal() {
         return goal;
     }

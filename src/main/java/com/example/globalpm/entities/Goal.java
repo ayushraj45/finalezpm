@@ -1,5 +1,6 @@
 package com.example.globalpm.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
@@ -17,12 +18,12 @@ public class Goal {
     UUID id;
 
     private String goalName;
-    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
+
     @ManyToOne
     @JoinColumn(name = "project_id")
     private Project project;
 
-    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
+
     @OneToMany(mappedBy = "goal")
     private List<Task> tasks;
 
@@ -40,7 +41,6 @@ public class Goal {
 
     //Setters and Getters
 
-
     public UUID getId() {
         return id;
     }
@@ -49,7 +49,7 @@ public class Goal {
         this.tasks = tasks;
     }
 
-    @JsonManagedReference
+    @JsonIgnore
     public Project getProject() {
         return project;
     }
@@ -62,7 +62,7 @@ public class Goal {
         this.goalName = goalName;
     }
 
-    @JsonManagedReference
+    @JsonIgnore
     public List<Task> getTasks() {
         return tasks;
     }
@@ -73,6 +73,7 @@ public class Goal {
     }
 
 
+    @JsonIgnore
     public List<User> getUsers() {
         return users;
     }
