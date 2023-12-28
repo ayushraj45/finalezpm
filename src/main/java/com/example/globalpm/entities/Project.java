@@ -22,10 +22,11 @@ public class Project {
     @ManyToMany(mappedBy = "assignedProjects")
     List<User> users = new ArrayList<>();
 
+    private Double projectProgress = 0.0;
+
+    private boolean completionStatus = false;
 
     //Setters and Getters
-
-
     public UUID getId() {
         return id;
     }
@@ -38,12 +39,27 @@ public class Project {
         this.name = name;
     }
 
-    public Project(String name) {
-        this.name = name;
+    public Double getProjectProgress() {
+        return projectProgress;
+    }
+
+    public void setProjectProgress(Double projectProgress) {
+        this.projectProgress = projectProgress;
+    }
+
+    public boolean isCompletionStatus() {
+        return completionStatus;
+    }
+
+    public void setCompletionStatus(boolean completionStatus) {
+        this.completionStatus = completionStatus;
     }
 
     //Constructors and Other Methods
     Project(){}
+    public Project(String name) {
+        this.name = name;
+    }
 
     public void addGoal(Goal goal) {
         if (goals == null) {
@@ -67,4 +83,22 @@ public class Project {
         users.add(user);
         setUsers(users);
     }
+
+    public void calcProjectProgress(){
+        int numOfGoals = goals.size();
+        double partialProgress = 0;
+        double progressFromEachGoal = 100/numOfGoals;
+        List<Goal> completedGoals = new ArrayList<>();
+        for (Goal goal: goals) {
+            if(goal.getCompletionStatus() == true)
+             {completedGoals.add(goal);}
+            else{
+                partialProgress += (goal.getGoalProgress()/100) * progressFromEachGoal;
+            }
+        }
+        double projectProgress = partialProgress + (progressFromEachGoal * completedGoals.size());
+        setProjectProgress(projectProgress);
+    }
+
 }
+

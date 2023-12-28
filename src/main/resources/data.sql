@@ -3,18 +3,19 @@ DELETE FROM TASK;
 DELETE FROM GOAL;
 DELETE FROM USER_PROJECT;
 DELETE FROM PROJECT;
-DELETE FROM user;
+DELETE FROM USER;
 
 INSERT INTO PROJECT(ID, NAME) VALUES
 (001, 'PROJECT1'),
 (002, 'PROJECT2');
 
-INSERT INTO GOAL(id, goal_name, project_id) VALUES
-(101,'GOAL1',001),
-(102,'GOAL2',002);
+INSERT INTO GOAL(id, goal_name, project_id,completion_status,goal_progress) VALUES
+(101,'GOAL1',001,false,50.0),
+(102,'GOAL2',001,true,100.0);
 
-INSERT INTO TASK(id,description,name,goal_id) VALUES
-(110, 'TASK1', 'TD1', 101);
+INSERT INTO TASK(id,description,name,goal_id,completion_status) VALUES
+(110, 'TASK1', 'TD1', 101,true),
+(120, 'Task2', 'TD2', 101,false);
 
 insert into user(id, name) values (1001,'ayushraj');
 

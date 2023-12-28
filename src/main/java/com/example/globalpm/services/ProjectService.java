@@ -36,10 +36,6 @@ public class ProjectService {
     @Autowired
     private TaskRepository taskRepository;
 
-
-
-
-
     public List<Project> getAllProjects() {
         return projectRepo.findAll();
     }
@@ -91,5 +87,9 @@ public class ProjectService {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Project to add cannot have an ID");
         }
         return projectRepo.save(project);
+    }
+
+    public Double getProjectProgressWithGoal(UUID projectId) {
+
     }
 }

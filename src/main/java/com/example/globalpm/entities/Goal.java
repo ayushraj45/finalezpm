@@ -1,7 +1,6 @@
 package com.example.globalpm.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 
@@ -30,6 +29,9 @@ public class Goal {
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     @ManyToMany(mappedBy = "assignedGoals")
     List<User> users = new ArrayList<>();
+
+    private Double goalProgress = 0.0;
+    private boolean completionStatus = false;
 
     //Constructors and Methods
     public Goal(String goalName) {
@@ -86,5 +88,34 @@ public class Goal {
 
     public void setProject(Project project) {
         this.project=project;
+    }
+
+    public Double getGoalProgress() {
+        calcGoalProgress();
+        return goalProgress;
+    }
+
+    public void setGoalProgress(Double goalProgress) {
+        this.goalProgress = goalProgress;
+    }
+
+    public boolean getCompletionStatus() {
+        return completionStatus;
+    }
+
+    public void setCompletionStatus(boolean completionStatus) {
+        this.completionStatus = completionStatus;
+    }
+
+    public void calcGoalProgress(){
+        int numOfTask = tasks.size();
+        double progressFromEachTask = 100/numOfTask;
+        List<Task> completedTasks = new ArrayList<>();
+        for (Task task: tasks) {
+            if(task.isCompletionStatus()==true)
+                completedTasks.add(task);
+        }
+          double goalProgress = progressFromEachTask * completedTasks.size();
+            setGoalProgress(goalProgress);
     }
 }

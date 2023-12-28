@@ -29,6 +29,8 @@ public class Task {
     @ManyToMany(mappedBy = "assignedTasks")
     List<User> users = new ArrayList<>();
 
+    private boolean completionStatus = false;
+
     //Constructors and other methods
     @Autowired
     public Task(String name, String description, Goal goal) {
@@ -82,5 +84,13 @@ public class Task {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public boolean isCompletionStatus() {
+        return completionStatus;
+    }
+
+    public void setCompletionStatus(boolean completionStatus) {
+        this.completionStatus = completionStatus;
     }
 }

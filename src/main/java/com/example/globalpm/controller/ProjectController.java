@@ -49,6 +49,12 @@ public class ProjectController {
         return projService.findUsersInAProject(projectId);
     }
 
+    @Operation(summary = "Get project progress", description = "Returns the project progress with a Project Id")
+    @GetMapping("/{projectId}/progress")
+    public Double getProjectProgress(@PathVariable UUID projectId){
+        return projService.getProjectProgressWithGoal(projectId);
+    }
+
     //POST MAPPING
     @Operation(summary = "Add a new project", description = "Add a new project")
     @PostMapping
