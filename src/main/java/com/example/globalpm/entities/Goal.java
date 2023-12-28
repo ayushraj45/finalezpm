@@ -71,8 +71,6 @@ public class Goal {
             tasks.add(task);
             setTasks(tasks);
     }
-
-
     @JsonIgnore
     public List<User> getUsers() {
         return users;
