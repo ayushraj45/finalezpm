@@ -2,6 +2,8 @@ package com.example.globalpm.entities;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
+import org.springframework.beans.factory.annotation.Value;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -22,8 +24,8 @@ public class Project {
     @ManyToMany(mappedBy = "assignedProjects")
     List<User> users = new ArrayList<>();
 
-    private Double projectProgress = 0.0;
-
+    private Double projectProgress;
+    @Value("false")
     private boolean completionStatus = false;
 
     //Setters and Getters
@@ -47,12 +49,17 @@ public class Project {
         this.projectProgress = projectProgress;
     }
 
-    public boolean isCompletionStatus() {
+    public boolean getCompletionStatus() {
         return completionStatus;
     }
 
     public void setCompletionStatus(boolean completionStatus) {
         this.completionStatus = completionStatus;
+    }
+
+    @JsonManagedReference
+    public List<Goal> getGoals() {
+        return goals;
     }
 
     //Constructors and Other Methods
@@ -82,22 +89,6 @@ public class Project {
     public void addUser(User user){
         users.add(user);
         setUsers(users);
-    }
-
-    public void calcProjectProgress(){
-        int numOfGoals = goals.size();
-        double partialProgress = 0;
-        double progressFromEachGoal = 100/numOfGoals;
-        List<Goal> completedGoals = new ArrayList<>();
-        for (Goal goal: goals) {
-            if(goal.getCompletionStatus() == true)
-             {completedGoals.add(goal);}
-            else{
-                partialProgress += (goal.getGoalProgress()/100) * progressFromEachGoal;
-            }
-        }
-        double projectProgress = partialProgress + (progressFromEachGoal * completedGoals.size());
-        setProjectProgress(projectProgress);
     }
 
 }

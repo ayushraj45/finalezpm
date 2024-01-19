@@ -11,6 +11,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -69,5 +70,23 @@ public class GoalService {
             return goalRepo.save(goalToAddTheTaskIn);
         }
 
-
+    public double calcGoalProgress(Goal goal){
+        List<Task> tasksToCalc = goal.getTasks();
+        List<Task> completedTasks = new ArrayList<>();
+        int numOfTask = tasksToCalc.size();
+        double progressFromEachTask;
+        if(numOfTask == 0){
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND,"No tasks in the Goal.");
+        }
+        else {
+            progressFromEachTask = 100 / numOfTask;
+            for (Task task : tasksToCalc) {
+                if (task.isCompletionStatus() == true)
+                    completedTasks.add(task);
+            }
+        }
+        double goalProgress = progressFromEachTask * completedTasks.size();
+        goal.setGoalProgress(goalProgress);
+        return goalProgress;
+    }
 }

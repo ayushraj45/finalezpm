@@ -91,7 +91,6 @@ public class Goal {
     }
 
     public Double getGoalProgress() {
-        calcGoalProgress();
         return goalProgress;
     }
 
@@ -107,7 +106,7 @@ public class Goal {
         this.completionStatus = completionStatus;
     }
 
-    public void calcGoalProgress(){
+/*    public void calcGoalProgress(){
         int numOfTask = tasks.size();
         double progressFromEachTask = 100/numOfTask;
         List<Task> completedTasks = new ArrayList<>();
@@ -117,5 +116,5 @@ public class Goal {
         }
           double goalProgress = progressFromEachTask * completedTasks.size();
             setGoalProgress(goalProgress);
-    }
+    }*/
 }

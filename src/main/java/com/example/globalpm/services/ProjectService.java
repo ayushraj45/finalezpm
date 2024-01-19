@@ -34,6 +34,9 @@ public class ProjectService {
     private GoalRepository goalRepository;
 
     @Autowired
+    private GoalService goalService;
+
+    @Autowired
     private TaskRepository taskRepository;
 
     public List<Project> getAllProjects() {
@@ -90,6 +93,30 @@ public class ProjectService {
     }
 
     public Double getProjectProgressWithGoal(UUID projectId) {
+        Project project = projectRepo.findById(projectId)
+                .orElseThrow(() -> new RuntimeException("Project not found with id: " + projectId));
+        if(project.getGoals().isEmpty()){
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "There are no goals in the project with ID: " + projectId);
+        }
+        double projectProgress = calcProjectProgress(project);
+        project.setProjectProgress(projectProgress);
+        return project.getProjectProgress();
+    }
 
+    public double calcProjectProgress(Project project){
+        List<Goal> goalsToCalc = project.getGoals();
+        int numOfGoals = goalsToCalc.size();
+        double partialProgress = 0;
+        double progressFromEachGoal = 100/numOfGoals;
+        List<Goal> completedGoals = new ArrayList<>();
+        for (Goal goal: goalsToCalc) {
+            if(goal.getCompletionStatus() == true)
+            {completedGoals.add(goal);}
+            else{
+                double goalProgress = goalService.calcGoalProgress(goal);
+                partialProgress += (goalProgress/100) * progressFromEachGoal;
+            }
+        }
+        return partialProgress + (progressFromEachGoal * completedGoals.size());
     }
 }
