@@ -1,9 +1,12 @@
 package com.example.globalpm.controller;
 
+import com.example.globalpm.entities.Project;
 import com.example.globalpm.entities.Task;
+import com.example.globalpm.entities.User;
 import com.example.globalpm.services.TaskService;
 import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
@@ -19,7 +22,7 @@ public class TaskController {
     public TaskController(TaskService service) {
         this.service = service;
     }
-    @Operation(summary = "Get a list of all Tasks", description = "Returns a list of all goals across all projects")
+    @Operation(summary = "Get a list of all Tasks", description = "Returns a list of all tasks across all projects")
     @GetMapping("")
     List<Task> getAllTasks(){
         return service.findAllTask();
@@ -30,11 +33,10 @@ public class TaskController {
         return service.findTaskByGoalId(goalId);
     }
 
-    @Operation(summary = "Add a Task", description = "Add a task")
-    @PostMapping
-    @ResponseStatus(HttpStatus.CREATED)
-    public Task addATask(@RequestBody Task goal){
-        return service.addANewTask(goal);
+    @Operation(summary = "Get a list of all users assigned to a Task", description = "Returns a list of users assigned to a task with Task Id")
+    @GetMapping("/users/{taskId}")
+    public List<User> getAllUsersInATask(@PathVariable UUID taskId){
+        return service.findUsersInATask(taskId);
     }
 
     @Operation(summary = "Update a Task", description = "Update a task")
@@ -44,4 +46,11 @@ public class TaskController {
         return service.updateATask(goal);
     }
 
+    //POST MAPPING
+    @Operation(summary = "Add a new Task in a Goal", description = "Add a new Task To A Goal")
+    @PostMapping
+    @ResponseStatus(HttpStatus.CREATED)
+    public Task addTask(@RequestBody @DateTimeFormat(pattern="dd-MM-yyyy") Task task){
+        return service.addATask(task);
+    }
 }

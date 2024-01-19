@@ -3,9 +3,11 @@ package com.example.globalpm.misc;
 import com.example.globalpm.data.ProjectRepository;
 import com.example.globalpm.data.TaskRepository;
 import com.example.globalpm.data.GoalRepository;
+import com.example.globalpm.data.UserRepository;
 import com.example.globalpm.entities.Project;
 import com.example.globalpm.entities.Task;
 import com.example.globalpm.entities.Goal;
+import com.example.globalpm.entities.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.context.event.EventListener;
@@ -24,11 +26,14 @@ public class Populator {
     TaskRepository goalRepository;
 
     @Autowired
+    UserRepository userRepository;
+
+    @Autowired
     public Populator(ProjectRepository IProjectRepository) {
         this.ProjectRepository = IProjectRepository;
     }
 
-    @EventListener(ContextRefreshedEvent.class)
+    //EventListener(ContextRefreshedEvent.class)
     public void populate(){
         Project p1 = new Project("New Project");
         ProjectRepository.save(p1);
@@ -46,6 +51,10 @@ public class Populator {
         t1.setProject(p1);
         t2.setProject(p1);
 
+        User u1 = new User("Ayush");
+        u1.assignProject(p1);
+        userRepository.save(u1);
+        p1.addUser(u1);
         goalRepo.save(t1);
         goalRepo.save(t2);
         ProjectRepository.save(p1);
