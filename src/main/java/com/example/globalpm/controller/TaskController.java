@@ -1,5 +1,6 @@
 package com.example.globalpm.controller;
 
+import com.example.globalpm.entities.Goal;
 import com.example.globalpm.entities.Project;
 import com.example.globalpm.entities.Task;
 import com.example.globalpm.entities.User;
@@ -52,5 +53,20 @@ public class TaskController {
     @ResponseStatus(HttpStatus.CREATED)
     public Task addTask(@RequestBody @DateTimeFormat(pattern="dd-MM-yyyy") Task task){
         return service.addATask(task);
+    }
+
+    //Put Mapping
+    @Operation(summary = "Assign a User to A Task and vice-versa", description = "adds a user to Task with Task ID and User")
+    @PutMapping("{taskId}/addUser")
+    @ResponseStatus(HttpStatus.CREATED)
+    public Task addAUserToATask(@RequestBody User user, UUID taskId){
+        return service.assignUserToTask(taskId,user);
+    }
+
+    @Operation(summary = "Remove a User from a task and vice-versa", description = "removes a user to task with Task ID and User")
+    @PutMapping("{taskId}/removeUser")
+    @ResponseStatus(HttpStatus.CREATED)
+    public Task removeAFromToATask(@RequestBody User user, UUID taskId){
+        return service.removeUserToTask(taskId,user);
     }
 }

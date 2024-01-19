@@ -91,5 +91,10 @@ public class Project {
         setUsers(users);
     }
 
+    public void removeUser(User user){
+        users.remove(user);
+        setUsers(users);
+    }
+
 }
 

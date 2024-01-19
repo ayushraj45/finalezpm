@@ -92,12 +92,27 @@ public class User {
         assignedProjects.add(project);
         setAssignedProjects(assignedProjects);
     }
+
+    public void removeFromProject(Project project){
+        assignedProjects.remove(project);
+        setAssignedProjects(assignedProjects);
+    }
     public void assignGoal(Goal goal){
         assignedGoals.add(goal);
         setAssignedGoals(assignedGoals);
     }
+
+    public void removeFromGoal(Goal goal){
+        assignedGoals.remove(goal);
+        setAssignedGoals(assignedGoals);
+    }
     public void assignTask(Task task){
         assignedTasks.add(task);
+        setAssignedTasks(assignedTasks);
+    }
+
+    public void removeFromTask(Task task){
+        assignedTasks.remove(task);
         setAssignedTasks(assignedTasks);
     }
    // @JsonManagedReference

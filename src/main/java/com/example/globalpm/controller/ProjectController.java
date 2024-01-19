@@ -79,5 +79,11 @@ public class ProjectController {
         return projService.addUserToProject(projectId,user);
     }
 
+    @Operation(summary = "Remove a User from a project and vice-versa", description = "removes a user to project with Project ID and User")
+    @PutMapping("{projectID}/removeUser")
+    @ResponseStatus(HttpStatus.CREATED)
+    public Project removeAFromToAProject(@RequestBody User user, UUID projectId){
+        return projService.removeUserFromProject(projectId,user);
+    }
 
 }

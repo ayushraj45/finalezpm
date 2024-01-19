@@ -58,7 +58,19 @@ public class GoalController {
         return service.addTaskToAGoal(id, task);
     }
 
+    @Operation(summary = "Assign a User to A Goal and vice-versa", description = "adds a user to Goal with Goal ID and User")
+    @PutMapping("{goalId}/addUser")
+    @ResponseStatus(HttpStatus.CREATED)
+    public Goal addAUserToAGoal(@RequestBody User user, UUID goalId){
+        return service.assignUserToGoal(goalId,user);
+    }
 
+    @Operation(summary = "Remove a User to A Goal and vice-versa", description = "removes a user to Goal with Goal ID and User")
+    @PutMapping("{goalId}/removeUser")
+    @ResponseStatus(HttpStatus.CREATED)
+    public Goal removeAUserToAGoal(@RequestBody User user, UUID goalId){
+        return service.removeUserToGoal(goalId,user);
+    }
 
 
 }

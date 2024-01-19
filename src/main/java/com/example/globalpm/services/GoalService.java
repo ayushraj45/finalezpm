@@ -2,6 +2,7 @@ package com.example.globalpm.services;
 import com.example.globalpm.data.GoalRepository;
 import com.example.globalpm.data.ProjectRepository;
 import com.example.globalpm.data.TaskRepository;
+import com.example.globalpm.data.UserRepository;
 import com.example.globalpm.entities.Goal;
 import com.example.globalpm.entities.Project;
 import com.example.globalpm.entities.Task;
@@ -12,6 +13,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.UUID;
 
@@ -26,6 +28,9 @@ public class GoalService {
 
     @Autowired
     ProjectRepository projRepo;
+
+    @Autowired
+    UserRepository userRepository;
 
     @Autowired
     public GoalService(GoalRepository goalRepo) {
@@ -89,4 +94,35 @@ public class GoalService {
         goal.setGoalProgress(goalProgress);
         return goalProgress;
     }
-}
+
+    public Goal assignUserToGoal(UUID goalId, User user) {
+        Goal goal = goalRepo.findById(goalId)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Goal not found with id: " + goalId));
+        User userUO= userRepository.findById(user.getId())
+                .orElseThrow(() -> new RuntimeException("User not found with user id: " + user.getId()));
+        goal.addUser(userUO);
+        userUO.assignGoal(goal);
+        userRepository.save(userUO);
+        return goalRepo.save(goal);
+    }
+
+    public Goal removeUserToGoal(UUID goalId, User user) {
+        Goal goal = goalRepo.findById(goalId)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Goal not found with id: " + goalId));
+        User userUO= userRepository.findById(user.getId())
+                .orElseThrow(() -> new RuntimeException("User not found with user id: " + user.getId()));
+        List<User> goalUsers= goal.getUsers();
+        Iterator<User> itr = goalUsers.iterator();
+        while(itr.hasNext()){
+            User userToRemove = itr.next();
+            if(userToRemove.equals(userUO)){
+                itr.remove();
+            }
+            else throw new RuntimeException("This user doesn't exist in the goal");
+        }
+        goal.setUsers(goalUsers);
+        userUO.removeFromGoal(goal);
+        userRepository.save(userUO);
+        return goalRepo.save(goal);
+    }
+    }

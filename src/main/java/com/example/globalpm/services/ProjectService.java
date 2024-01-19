@@ -7,16 +7,12 @@ import com.example.globalpm.entities.Project;
 import com.example.globalpm.entities.Goal;
 import com.example.globalpm.entities.Task;
 import com.example.globalpm.entities.User;
-import org.hibernate.boot.model.process.internal.UserTypeResolution;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
 
 @Service
 public class ProjectService {
@@ -144,6 +140,26 @@ public class ProjectService {
                 .orElseThrow(() -> new RuntimeException("User not found with user id: " + user.getId()));
         project.addUser(userUO);
         userUO.assignProject(project);
+        userRepository.save(userUO);
+        return projectRepo.save(project);
+    }
+
+    public Project removeUserFromProject(UUID projectId, User user) {
+        Project project = projectRepo.findById(projectId)
+                .orElseThrow(() -> new RuntimeException("Project not found with id: " + projectId));
+        User userUO= userRepository.findById(user.getId())
+                .orElseThrow(() -> new RuntimeException("User not found with user id: " + user.getId()));
+        List<User> projectUsers = project.getUsers();
+        Iterator<User> itr = projectUsers.iterator();
+        while(itr.hasNext()){
+            User userToRemove = itr.next();
+            if(userToRemove.equals(userUO)){
+                itr.remove();
+            }
+            else throw new RuntimeException("This user doesn't exist in the project");
+        }
+        project.setUsers(projectUsers);
+        userUO.removeFromProject(project);
         userRepository.save(userUO);
         return projectRepo.save(project);
     }
