@@ -100,7 +100,7 @@ public class User {
         assignedTasks.add(task);
         setAssignedTasks(assignedTasks);
     }
-    @JsonManagedReference
+   // @JsonManagedReference
     public Location getUserLocation() {
         return userLocation;
     }

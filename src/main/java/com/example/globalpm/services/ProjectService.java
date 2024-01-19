@@ -2,10 +2,12 @@ package com.example.globalpm.services;
 import com.example.globalpm.data.GoalRepository;
 import com.example.globalpm.data.ProjectRepository;
 import com.example.globalpm.data.TaskRepository;
+import com.example.globalpm.data.UserRepository;
 import com.example.globalpm.entities.Project;
 import com.example.globalpm.entities.Goal;
 import com.example.globalpm.entities.Task;
 import com.example.globalpm.entities.User;
+import org.hibernate.boot.model.process.internal.UserTypeResolution;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -38,6 +40,9 @@ public class ProjectService {
 
     @Autowired
     private TaskRepository taskRepository;
+
+    @Autowired
+    private UserRepository userRepository;
 
     public List<Project> getAllProjects() {
         return projectRepo.findAll();
@@ -98,7 +103,19 @@ public class ProjectService {
         if(project.getGoals().isEmpty()){
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "There are no goals in the project with ID: " + projectId);
         }
-        double projectProgress = calcProjectProgress(project);
+        List<Task> numOfTasks = getAllTasksInProject(projectId);
+        List<Task> completedTasks = new ArrayList<>();
+        double progressFromEachTask = (double) 100 / numOfTasks.size();
+        if(numOfTasks.isEmpty()){
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "There are no tasks in the project, please add some to continue, Project ID: " + projectId);
+        }
+        else{
+            for (Task task : numOfTasks) {
+                if(task.isCompletionStatus())
+                    completedTasks.add(task);
+            }
+        }
+        double projectProgress = progressFromEachTask * completedTasks.size();
         project.setProjectProgress(projectProgress);
         return project.getProjectProgress();
     }
@@ -107,7 +124,7 @@ public class ProjectService {
         List<Goal> goalsToCalc = project.getGoals();
         int numOfGoals = goalsToCalc.size();
         double partialProgress = 0;
-        double progressFromEachGoal = 100/numOfGoals;
+        double progressFromEachGoal = (double) 100 /numOfGoals;
         List<Goal> completedGoals = new ArrayList<>();
         for (Goal goal: goalsToCalc) {
             if(goal.getCompletionStatus() == true)
@@ -118,5 +135,16 @@ public class ProjectService {
             }
         }
         return partialProgress + (progressFromEachGoal * completedGoals.size());
+    }
+
+    public Project addUserToProject(UUID projectId, User user) {
+        Project project = projectRepo.findById(projectId)
+                .orElseThrow(() -> new RuntimeException("Project not found with id: " + projectId));
+        User userUO= userRepository.findById(user.getId())
+                .orElseThrow(() -> new RuntimeException("User not found with user id: " + user.getId()));
+        project.addUser(userUO);
+        userUO.assignProject(project);
+        userRepository.save(userUO);
+        return projectRepo.save(project);
     }
 }

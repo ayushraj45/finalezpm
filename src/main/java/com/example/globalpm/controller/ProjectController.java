@@ -71,4 +71,13 @@ public class ProjectController {
     public Project addAgoalToAProject(@RequestBody Goal goal, UUID id){
         return projService.addGoalToProject(id, goal);
     }
+
+    @Operation(summary = "Assign a User to A project and vice-versa", description = "adds a user to project with Project ID and User")
+    @PutMapping("{projectID}/addUser")
+    @ResponseStatus(HttpStatus.CREATED)
+    public Project addAUserToAProject(@RequestBody User user, UUID projectId){
+        return projService.addUserToProject(projectId,user);
+    }
+
+
 }

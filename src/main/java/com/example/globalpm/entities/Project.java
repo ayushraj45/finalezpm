@@ -77,7 +77,7 @@ public class Project {
             goals.add(goal);
     }
 
-    @JsonManagedReference
+    //@JsonManagedReference
     public List<User> getUsers() {
         return users;
     }
